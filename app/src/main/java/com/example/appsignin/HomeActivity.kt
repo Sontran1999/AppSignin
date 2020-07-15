@@ -40,11 +40,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 view()
             }
             R.id.btn_inbox ->{
-                var inboxFragment: InboxFragment = InboxFragment()
-                var fragmentManager: FragmentManager = supportFragmentManager
-                var fragmentTransaction: FragmentTransaction =
-                    fragmentManager.beginTransaction().replace(R.id.frameContent, inboxFragment).addToBackStack("")
-                fragmentTransaction.commit()
+                view2()
             }
         }
     }
@@ -55,6 +51,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             fragmentManager.beginTransaction().replace(R.id.frameContent, homeFragment)
         fragmentTransaction.commit()
     }
+
+    fun view2(){
+        var inboxFragment: InboxFragment = InboxFragment()
+        var fragmentManager: FragmentManager = supportFragmentManager
+        var fragmentTransaction: FragmentTransaction =
+            fragmentManager.beginTransaction().replace(R.id.frameContent, inboxFragment).addToBackStack("")
+        fragmentTransaction.commit()
+    }
+
 
 }
 

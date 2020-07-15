@@ -3,59 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <Spinner
+        android:id="@+id/spn_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        android:background="#ffffff">
+        app:layout_constraintVertical_bias="0.3"
+        card_view:ignore="MissingConstraints" />
 
-        <Spinner
-            android:id="@+id/spn_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:ignore="MissingConstraints"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            card_view:layout_editor_absoluteY="0dp" />
+    <ImageButton
+        android:id="@+id/img_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_search"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        card_view:ignore="MissingConstraints" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spn_category"
+        android:layout_marginLeft="10dp"
+        android:text="Chicago, IL 60611, USA"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spn_category" />
 
-        <ImageButton
-            android:id="@+id/img_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_search"
-            card_view:ignore="MissingConstraints"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            card_view:layout_editor_absoluteY="4dp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spn_category"
-            android:text="Chicago, IL 60611, USA"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="#f2f3fa"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 

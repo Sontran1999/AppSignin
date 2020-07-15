@@ -11,7 +11,7 @@
     android:layout_marginTop="9dp"
     android:layout_marginBottom="9dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
@@ -128,7 +128,7 @@
 
                 android:textSize="15sp" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
 
 

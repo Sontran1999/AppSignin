@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:id="@+id/card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"
+                app:cardCornerRadius="250dp"
+                android:layout_alignParentLeft="true">
+                <ImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    app:srcCompat="@drawable/avatar1"
+                    />
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/card"
+                android:textSize="20dp"
+                android:text="Hello"
+                android:textColor="#e9446a"/>
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/card"
+                android:layout_below="@id/tv_name"
+                android:textSize="15dp"
+                android:text="Hello" />
+
+                <TextView
+                    android:id="@+id/tv_notification"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textSize="15dp"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:background="@drawable/ic_notifiication"
+                    android:text="1"
+                    android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/tv_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/tv_notification"
+                android:textSize="15dp"
+                android:text="5 : 45 PM"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
