@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val email: String = edt_email.text.toString()
 
                 if (email.isEmpty()) {
-                    edt_email.error = "Email không được để trông"
+                    edt_email.error = "Email không được để trônggggggggg"
                 }
                 else if(!email.matches(validateEmail.toRegex())){
                     edt_email.error = "Email sai"
