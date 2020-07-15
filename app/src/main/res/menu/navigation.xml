@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/group_7"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/navigation_mess"
+        android:icon="@drawable/group_8"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/navigation_plus"
+        android:icon="@drawable/ic_group_7"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/navigation_notifi"
+        android:icon="@drawable/group_9"
+        tools:ignore="MenuTitle" />
+    <item
+       app:showAsAction="always|withText"
+        android:enabled="true"
+        android:id="@+id/navigation_personal"
+        android:icon="@drawable/img_account"
+        tools:ignore="MenuTitle" />
+</menu>

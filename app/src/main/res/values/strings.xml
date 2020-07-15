@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AppSignin</string>
+    <string-array name="fragment">
+        <item>one</item>
+        <item>two</item>
+    </string-array>
+</resources>
