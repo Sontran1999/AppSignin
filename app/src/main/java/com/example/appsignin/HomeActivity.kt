@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity() : AppCompatActivity(), View.OnClickListener{
     lateinit var listHome:ArrayList<Home>
-    var homeAdapter:HomeAdapter= HomeAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
