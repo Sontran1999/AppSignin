@@ -99,8 +99,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             val intent: Intent = Intent(this, HomeActivity::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                            startActivity(intent)
-                            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+                            startActivityForResult(intent,LAUNCH_SECOND_ACTIVITY)
+                            finish()
+                            Toast.makeText(this,"Success", Toast.LENGTH_SHORT).show()
                         }
                         else{
                             edt_pass.setText("")

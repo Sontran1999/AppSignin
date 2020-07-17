@@ -2,9 +2,8 @@ package com.example.appsignin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
@@ -13,14 +12,14 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsignin.Adapter.HomeAdapter
-import com.example.appsignin.Array.List
 import com.example.appsignin.Fragment.HomeFragment
 import com.example.appsignin.Fragment.InboxFragment
 import com.example.appsignin.Object.Home
+import com.example.appsignin.Object.Inbox
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity() : AppCompatActivity(), View.OnClickListener{
-    lateinit var listHome:ArrayList<Home>
+    var listHome:ArrayList<Home>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +40,31 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener{
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.btn_home ->{
-                supportFragmentManager.popBackStackImmediate("fragHome", 0)
+                var homeFragment: HomeFragment = HomeFragment()
+                if(homeFragment.isAdded){
+                    var fragmentManager: FragmentManager = supportFragmentManager
+                    var fragmentTransaction: FragmentTransaction =
+                        fragmentManager.beginTransaction()
+                    fragmentTransaction.show(homeFragment)
+//                    supportFragmentManager.popBackStackImmediate("fragHome", 0)
+                }
+                else{
+                    supportFragmentManager.popBackStackImmediate("fragHome", 0)
+                }
+
 
             }
             R.id.btn_inbox ->{
-                view2()
+                var inboxFragment: InboxFragment = InboxFragment(listHome)
+                if(inboxFragment.isAdded) {
+                    var fragmentManager: FragmentManager = supportFragmentManager
+                    var fragmentTransaction: FragmentTransaction =
+                        fragmentManager.beginTransaction()
+                    fragmentTransaction.show(inboxFragment)
+                }
+                else {
+                    view2()
+                }
             }
         }
     }
@@ -75,7 +94,8 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener{
     }
 
     fun passDataToChild(listHome:ArrayList<Home>){
-        this.listHome=listHome
+
+        this.listHome =listHome
     }
 
 }

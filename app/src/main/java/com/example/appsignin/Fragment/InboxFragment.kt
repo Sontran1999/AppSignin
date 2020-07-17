@@ -17,9 +17,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class InboxFragment(): Fragment() {
-    lateinit var listHome:ArrayList<Home>
-    constructor(listHome:ArrayList<Home>):this(){
+class InboxFragment( ): Fragment() {
+    var listHome:ArrayList<Home>?=null
+    constructor(listHome: ArrayList<Home>?):this(){
         this.listHome = listHome
     }
     override fun onCreateView(
@@ -39,19 +39,36 @@ class InboxFragment(): Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager= LinearLayoutManager(view.context)
         var date: Date= Date()
-        var sdf2= SimpleDateFormat("hh:mm");
+        var sdf2= SimpleDateFormat("ht5   l:mm")
         var arrayList: ArrayList<Inbox> = ArrayList()
+
+
         arrayList.add(Inbox(R.drawable.avatar2,"Pearl Myers","xinchao","1","14:25pm"))
         arrayList.add(Inbox(R.drawable.avatar3,"Gary Rose","xinchao","1","14:25pm"))
+
+
        if(listHome != null){
+           var indexx:Int? = null
            listHome!!.forEachIndexed { index, home ->
+               arrayList.forEachIndexed { index1, inbox ->
+                   if(home.name.equals(inbox.name)){
+                       indexx=index1
+                   }
+               }
+               if(indexx != null){
+                   arrayList.removeAt(indexx!!)
+               }
                arrayList.add(0,Inbox(home.avatar,home.name,"xinchao","1",sdf2.format(date).toString()))
            }
        }
 
+
+
+
+
         var activity = activity
         if (activity is HomeActivity){
-            activity.passDataToChild(listHome)
+            listHome?.let { activity.passDataToChild(it) }
         }
 
 

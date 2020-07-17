@@ -1,8 +1,6 @@
 package com.example.appsignin.Adapter
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +8,11 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appsignin.Array.List
 import com.example.appsignin.Fragment.InboxFragment
 import com.example.appsignin.HomeActivity
 import com.example.appsignin.Object.Home
-import com.example.appsignin.Object.Inbox
 import com.example.appsignin.R
 
 class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
