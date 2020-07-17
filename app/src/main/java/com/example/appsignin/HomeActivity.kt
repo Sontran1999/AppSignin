@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,12 +13,15 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsignin.Adapter.HomeAdapter
+import com.example.appsignin.Array.List
 import com.example.appsignin.Fragment.HomeFragment
 import com.example.appsignin.Fragment.InboxFragment
 import com.example.appsignin.Object.Home
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity(), View.OnClickListener {
+class HomeActivity() : AppCompatActivity(), View.OnClickListener{
+    lateinit var listHome:ArrayList<Home>
+    var homeAdapter:HomeAdapter= HomeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +41,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.btn_home ->{
-                view()
+                supportFragmentManager.popBackStackImmediate("fragHome", 0)
+
             }
             R.id.btn_inbox ->{
                 view2()
@@ -48,18 +53,30 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         var homeFragment: HomeFragment = HomeFragment()
         var fragmentManager: FragmentManager = supportFragmentManager
         var fragmentTransaction: FragmentTransaction =
-            fragmentManager.beginTransaction().replace(R.id.frameContent, homeFragment)
+            fragmentManager.beginTransaction().replace(R.id.frameContent, homeFragment,"aaa").addToBackStack("fragHome")
         fragmentTransaction.commit()
     }
 
     fun view2(){
-        var inboxFragment: InboxFragment = InboxFragment()
+        var inboxFragment: InboxFragment = InboxFragment(listHome)
         var fragmentManager: FragmentManager = supportFragmentManager
         var fragmentTransaction: FragmentTransaction =
-            fragmentManager.beginTransaction().replace(R.id.frameContent, inboxFragment).addToBackStack("")
+            fragmentManager.beginTransaction().replace(R.id.frameContent, inboxFragment,"bbb").addToBackStack("fragInbox")
         fragmentTransaction.commit()
     }
 
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount>0) {
+            supportFragmentManager.popBackStack()
+        }
+        else {
+            super.onBackPressed()
+        }
+    }
+
+    fun passDataToChild(listHome:ArrayList<Home>){
+        this.listHome=listHome
+    }
 
 }
 

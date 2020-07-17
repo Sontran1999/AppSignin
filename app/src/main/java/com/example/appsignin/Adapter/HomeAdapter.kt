@@ -1,27 +1,30 @@
 package com.example.appsignin.Adapter
 
 import android.content.Context
-import android.content.Intent
-import android.media.Image
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appsignin.Fragment.HomeFragment
+import com.example.appsignin.Array.List
 import com.example.appsignin.Fragment.InboxFragment
+import com.example.appsignin.HomeActivity
 import com.example.appsignin.Object.Home
+import com.example.appsignin.Object.Inbox
 import com.example.appsignin.R
 
-class HomeAdapter(): RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
+class HomeAdapter(): RecyclerView.Adapter<HomeAdapter.ViewHoder>(){
     lateinit var mContext: Context
     lateinit var  mHome: ArrayList<Home>
+    var listHome:ArrayList<Home> = ArrayList()
+
+
     constructor(mContext: Context, mHome: ArrayList<Home>) : this() {
         this.mContext=mContext
         this.mHome= mHome
@@ -46,7 +49,12 @@ class HomeAdapter(): RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
         val homeView: View = layoutInflater.inflate(R.layout.adapter_home, parent, false)
         var viewHoder: ViewHoder= ViewHoder(homeView)
         viewHoder.avatar.setOnClickListener {
-            
+            listHome.add(mHome[viewHoder.adapterPosition])
+            var inboxFragment: InboxFragment = InboxFragment(listHome)
+            var appCompatActivity: AppCompatActivity= it.context as AppCompatActivity
+            var fragmentTransaction: FragmentTransaction = appCompatActivity.supportFragmentManager
+                .beginTransaction().replace(R.id.frameContent, inboxFragment).addToBackStack("aaaa")
+            fragmentTransaction.commit()
         }
 
         return viewHoder
@@ -72,6 +80,8 @@ class HomeAdapter(): RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
 //        }
 
         }
-    }
+
+
+}
 
 

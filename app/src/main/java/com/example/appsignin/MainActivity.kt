@@ -97,6 +97,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         var userPass:User?= userDB?.getDao()?.findUserByPass(edt_pass.text.toString())
                         if (userPass!=null){
                             val intent: Intent = Intent(this, HomeActivity::class.java)
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             startActivity(intent)
                             Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
                         }
