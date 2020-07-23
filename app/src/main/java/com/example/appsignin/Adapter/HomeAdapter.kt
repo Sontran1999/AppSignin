@@ -12,21 +12,22 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsignin.Fragment.InboxFragment
 import com.example.appsignin.HomeActivity
+import com.example.appsignin.Interface.OnItemClick
 import com.example.appsignin.Object.Home
 import com.example.appsignin.R
 
 class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
     lateinit var mContext: Context
     lateinit var mHome: ArrayList<Home>
-    var listHome: ArrayList<Home> = ArrayList()
+    lateinit var onItemClick: OnItemClick
 
-
-    constructor(mContext: Context, mHome: ArrayList<Home>) : this() {
+    constructor(mContext: Context, mHome: ArrayList<Home>, onItemClick: OnItemClick) : this() {
         this.mContext = mContext
         this.mHome = mHome
+        this.onItemClick = onItemClick
     }
 
-    inner class ViewHoder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHoder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var avatar: ImageView = itemView.findViewById(R.id.img_avatar)
         var name: TextView = itemView.findViewById(R.id.tv_name)
         var date: TextView = itemView.findViewById(R.id.tv_date)
@@ -45,7 +46,6 @@ class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
         val layoutInflater = LayoutInflater.from(mContext)
         val homeView: View = layoutInflater.inflate(R.layout.adapter_home, parent, false)
         var viewHoder: ViewHoder = ViewHoder(homeView)
-
         return viewHoder
     }
 
@@ -57,24 +57,12 @@ class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.ViewHoder>() {
         mHome[position].image?.let {
             holder.image.setImageResource(it)
         }
-
 //        holder.like.setBackgroundResource(mHome[position].like)
 //        holder.cmt.setBackgroundResource(mHome[position].cmt)
         holder.money.text = mHome[position].money
 
-//        holder.avatar.setOnClickListener {
-//
-//                Toast.makeText(mContext,holder.name.text,Toast.LENGTH_SHORT).show()
-//
-//        }
         holder.avatar.setOnClickListener {
-            listHome.add(mHome[holder.adapterPosition])
-            Log.d("aaa", listHome.size.toString())
-//            val list = listHome.clone() as ArrayList<Home>
-            var inboxFragment: InboxFragment = InboxFragment(listHome)
-            var fragmentTransaction: FragmentTransaction = (mContext as HomeActivity).supportFragmentManager
-                .beginTransaction().add(R.id.frameContent, inboxFragment).addToBackStack("aaaa")
-            fragmentTransaction.commit()
+            onItemClick.onClicks(mHome[position])
         }
 
     }

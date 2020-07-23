@@ -49,12 +49,14 @@ class SignupActivity() : AppCompatActivity(), CoroutineScope {
 
             }
 
-            var data=Intent()
-            data.putExtra("1",email1)
-            data.putExtra("2",password1)
-            setResult(RESULT_OK,data)
+            var data = Intent()
+            data.putExtra("1", email1)
+            data.putExtra("2", password1)
+            setResult(RESULT_OK, data)
             finish()
             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+
+
         }
 
     }

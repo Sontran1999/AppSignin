@@ -11,7 +11,7 @@ abstract class UserRoomDatabase: RoomDatabase() {
 
     companion object {
         private var INSTANCE: UserRoomDatabase?= null
-        private val DB_NAME = "user_database"
+        private const val DB_NAME = "user_database"
 
         fun getDatabase(context: Context): UserRoomDatabase {
             val tempInstance = INSTANCE

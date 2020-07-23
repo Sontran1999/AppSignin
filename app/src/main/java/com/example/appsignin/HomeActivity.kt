@@ -14,88 +14,106 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appsignin.Adapter.HomeAdapter
 import com.example.appsignin.Fragment.HomeFragment
 import com.example.appsignin.Fragment.InboxFragment
+import com.example.appsignin.Interface.OnItemClick
 import com.example.appsignin.Object.Home
 import com.example.appsignin.Object.Inbox
 import kotlinx.android.synthetic.main.activity_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HomeActivity() : AppCompatActivity(), View.OnClickListener{
-    var listHome:ArrayList<Home>? = null
+class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
 
-
+    val listFragment = arrayListOf(HomeFragment(), InboxFragment())
+    private var fragmentManager = supportFragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
         var ac: ActionBar? = supportActionBar
         if (ac != null) {
             ac.hide()
         }
 
+        
+
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        listFragment.forEachIndexed { index, fragment ->
+            fragmentTransaction.add(R.id.frameContent, fragment)
+            fragmentTransaction.hide(fragment)
+        }
+        fragmentTransaction.show(listFragment[0])
+        btn_home.setBackgroundResource(R.drawable.ic_home)
+        fragmentTransaction.commit()
+
         btn_home.setOnClickListener(this)
         btn_inbox.setOnClickListener(this)
-        view()
-
 
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.btn_home ->{
-                var homeFragment: HomeFragment = HomeFragment()
-                if(homeFragment.isAdded){
-                    var fragmentManager: FragmentManager = supportFragmentManager
-                    var fragmentTransaction: FragmentTransaction =
-                        fragmentManager.beginTransaction()
-                    fragmentTransaction.show(homeFragment)
-//                    supportFragmentManager.popBackStackImmediate("fragHome", 0)
-                }
-                else{
-                    supportFragmentManager.popBackStackImmediate("fragHome", 0)
-                }
-
-
+        when (p0?.id) {
+            R.id.btn_home -> {
+                viewFragment(listFragment[0])
+                btn_home.setBackgroundResource(R.drawable.ic_home)
+                btn_inbox.setBackgroundResource(R.drawable.ic_group_8)
             }
-            R.id.btn_inbox ->{
-                var inboxFragment: InboxFragment = InboxFragment(listHome)
-                if(inboxFragment.isAdded) {
-                    var fragmentManager: FragmentManager = supportFragmentManager
-                    var fragmentTransaction: FragmentTransaction =
-                        fragmentManager.beginTransaction()
-                    fragmentTransaction.show(inboxFragment)
-                }
-                else {
-                    view2()
-                }
+            R.id.btn_inbox -> {
+                viewFragment(listFragment[1])
+                btn_inbox.setBackgroundResource(R.drawable.ic_inbox)
+                btn_home.setBackgroundResource(R.drawable.ic_group_7)
             }
         }
     }
-    fun view(){
-        var homeFragment: HomeFragment = HomeFragment()
-        var fragmentManager: FragmentManager = supportFragmentManager
-        var fragmentTransaction: FragmentTransaction =
-            fragmentManager.beginTransaction().replace(R.id.frameContent, homeFragment,"aaa").addToBackStack("fragHome")
-        fragmentTransaction.commit()
-    }
 
-    fun view2(){
-        var inboxFragment: InboxFragment = InboxFragment(listHome)
-        var fragmentManager: FragmentManager = supportFragmentManager
-        var fragmentTransaction: FragmentTransaction =
-            fragmentManager.beginTransaction().replace(R.id.frameContent, inboxFragment,"bbb").addToBackStack("fragInbox")
+    fun viewFragment(fragment: Fragment) {
+        var fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        if (fragment.isAdded) {
+            fragmentTransaction.show(fragment)
+            listFragment.forEach {
+                if (it != fragment) fragmentTransaction.hide(it)
+            }
+        } else {
+            fragmentTransaction.add(R.id.frameContent, fragment)
+        }
         fragmentTransaction.commit()
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount>0) {
+        if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
-        }
-        else {
+        } else {
             super.onBackPressed()
         }
     }
 
-    fun passDataToChild(listHome:ArrayList<Home>){
+//    fun passDataToChild(listHome:ArrayList<Home>){
+//
+//        this.listHome =listHome
+//    }
 
-        this.listHome =listHome
+    override fun onClicks(home: Home) {
+        var date: Date = Date()
+        var sdf2= SimpleDateFormat("hh:mm")
+        var indexx: Int = -1
+        when {
+            listFragment[0].isVisible -> {
+                viewFragment(listFragment[1])
+                btn_inbox.setBackgroundResource(R.drawable.ic_inbox)
+                btn_home.setBackgroundResource(R.drawable.ic_group_7)
+                (listFragment[1] as? InboxFragment)?.let {
+                    it.arrayList.forEachIndexed { index, inbox ->
+                        if (it.arrayList[index].name.equals(home.name)) {
+                            indexx = index
+                        }
+                    }
+                    if (indexx != -1) {
+                        it.arrayList.removeAt(indexx)
+                    }
+                    it.arrayList.add(0, Inbox(home.avatar, home.name, "xinchao", "1", sdf2.format(date)))
+                    it.adapterInbox?.setList(it.arrayList)
+                }
+            }
+        }
     }
 
 }
