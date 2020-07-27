@@ -22,12 +22,15 @@ interface UserDao {
 
     @Insert
     suspend fun insert(user: User)
-//
-//    @Insert
-//    fun insert(inbox: Inbox)
-//
-//    @Query("SELECT * FROM Inbox")
-//    fun getAllInbox(
-//    ): ArrayList<Inbox>
+
+    @Insert
+    fun insert(inbox: Inbox)
+
+    @Query("SELECT * FROM Inbox ORDER BY id DESC")
+    fun getAllInbox(
+    ): List<Inbox>
+
+    @Query("delete from Inbox where name= :name")
+    fun deleteByName(name: String)
 
 }

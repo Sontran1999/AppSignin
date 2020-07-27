@@ -1,5 +1,6 @@
 package com.example.appsignin.Fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,10 +24,7 @@ import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 class InboxFragment() : Fragment() {
-    //    var listHome:ArrayList<Home>?=null
-//    constructor(listHome: ArrayList<Home>?):this(){
-//        this.listHome = listHome
-//    }
+    var mInboxDB: UserRoomDatabase?=null
     var arrayList: ArrayList<Inbox> = ArrayList()
     var adapterInbox: InboxAdapter = InboxAdapter()
     override fun onCreateView(
@@ -44,15 +42,9 @@ class InboxFragment() : Fragment() {
         var recyclerView: RecyclerView = view.findViewById(R.id.recyclerView2)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-//
 
-//
-//
-//
 //        arrayList.add(Inbox(R.drawable.avatar2,"Pearl Myers","xinchao","1","14:25pm"))
 //        arrayList.add(Inbox(R.drawable.avatar3,"Gary Rose","xinchao","1","14:25pm"))
-//
-//
 //
 //       if(listHome != null){
 //           var indexx:Int? = null
@@ -74,6 +66,8 @@ class InboxFragment() : Fragment() {
 //            listHome?.let { activity.passDataToChild(it) }
 //        }
 
+        mInboxDB = UserRoomDatabase.getDatabase(activity as HomeActivity)
+        arrayList= mInboxDB?.getDao()?.getAllInbox() as ArrayList<Inbox>
         recyclerView.adapter = adapterInbox
         adapterInbox.setList(arrayList)
 

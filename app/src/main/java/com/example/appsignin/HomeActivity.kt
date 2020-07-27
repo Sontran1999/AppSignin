@@ -12,17 +12,26 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsignin.Adapter.HomeAdapter
+import com.example.appsignin.Database.User
+import com.example.appsignin.Database.UserRoomDatabase
 import com.example.appsignin.Fragment.HomeFragment
 import com.example.appsignin.Fragment.InboxFragment
 import com.example.appsignin.Interface.OnItemClick
 import com.example.appsignin.Object.Home
 import com.example.appsignin.Object.Inbox
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.coroutines.CoroutineContext
 
-class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
-
+class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick, CoroutineScope {
+    private var mInboxDB: UserRoomDatabase? = null
+    private lateinit var mJob: Job
     val listFragment = arrayListOf(HomeFragment(), InboxFragment())
     private var fragmentManager = supportFragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +42,6 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
         if (ac != null) {
             ac.hide()
         }
-
-        
 
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         listFragment.forEachIndexed { index, fragment ->
@@ -47,6 +54,8 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
 
         btn_home.setOnClickListener(this)
         btn_inbox.setOnClickListener(this)
+
+        mJob = Job()
 
     }
 
@@ -72,9 +81,10 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
             listFragment.forEach {
                 if (it != fragment) fragmentTransaction.hide(it)
             }
-        } else {
-            fragmentTransaction.add(R.id.frameContent, fragment)
         }
+//        else {
+//            fragmentTransaction.add(R.id.frameContent, fragment)
+//        }
         fragmentTransaction.commit()
     }
 
@@ -93,8 +103,9 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
 
     override fun onClicks(home: Home) {
         var date: Date = Date()
-        var sdf2= SimpleDateFormat("hh:mm")
+        var sdf2 = SimpleDateFormat("hh:mm")
         var indexx: Int = -1
+        mInboxDB = UserRoomDatabase.getDatabase(this)
         when {
             listFragment[0].isVisible -> {
                 viewFragment(listFragment[1])
@@ -107,13 +118,37 @@ class HomeActivity() : AppCompatActivity(), View.OnClickListener, OnItemClick {
                         }
                     }
                     if (indexx != -1) {
-                        it.arrayList.removeAt(indexx)
+                        mInboxDB?.getDao()?.deleteByName(it.arrayList[indexx].name)
                     }
-                    it.arrayList.add(0, Inbox(home.avatar, home.name, "xinchao", "1", sdf2.format(date)))
-                    it.adapterInbox?.setList(it.arrayList)
+                    launch {
+                        mInboxDB?.getDao()?.insert(
+                            Inbox(
+                                avatar = home.avatar,
+                                name = home.name,
+                                message = " xin chào",
+                                notification = "1",
+                                dateTime = sdf2.format(date)
+                            )
+                        )
+                        it.arrayList.clear()
+                        var list = mInboxDB?.getDao()?.getAllInbox() as ArrayList
+                        list.forEachIndexed { index, inbox ->
+                            it.arrayList.add(list[index])
+                        }
+                        it.adapterInbox?.setList(it.arrayList)
+                    }
                 }
             }
         }
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mJob.cancel()
     }
 
 }

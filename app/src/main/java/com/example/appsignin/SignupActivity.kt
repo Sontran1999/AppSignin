@@ -12,14 +12,16 @@ import com.example.appsignin.Database.UserRoomDatabase
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 
 class SignupActivity() : AppCompatActivity(), CoroutineScope {
     private var mUserDB: UserRoomDatabase? = null
+    private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
+        get() = mJob + Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,8 @@ class SignupActivity() : AppCompatActivity(), CoroutineScope {
         if (ac != null) {
             ac.hide()
         }
+
+        mJob= Job()
 
         var txt_signin = findViewById(R.id.txt_signin) as TextView
         txt_signin.setOnClickListener {
@@ -60,4 +64,10 @@ class SignupActivity() : AppCompatActivity(), CoroutineScope {
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mJob.cancel()
+    }
 }
+
